@@ -3,15 +3,15 @@
 #### Description:
 
 ## Introduction
-<!-- ✍️ Write your own introduction here: what is the game, why you made this project, etc. -->
+I always play this card game called 'Boerenbridge' (in Dutch; my nationality) with my family. We always notate the scores traditionaly with pen and paper. Why not take the CS50p opportunity to implement a little program which does this tedious and prone-to-mistakes work for us...
 
 ---
 
 ## Project Overview
-This project is a command-line implementation of the card game *Oh Hell* (also known as *Boerenbridge*).  
-The program allows multiple players to join, bid for tricks each round, track their scores automatically, and determine the winner at the end of the game.  
+This project is a command-line scorekeeper for the card game *Oh Hell* (also known as *Boerenbridge* in Dutch).  
+For information about the game itself I would like to link to: https://en.wikipedia.org/wiki/Oh_hell
 
-The game enforces the main rules of *Oh Hell*:  
+The program enforces the main rules of *Oh Hell*:  
 - Players bid the number of tricks they expect to win.  
 - The sum of bids in a round cannot equal the number of available tricks (to avoid perfect balance).  
 - After the round is played, players record their actual tricks won.  
@@ -23,11 +23,11 @@ The game is played over a fixed number of rounds, after which the player(s) with
 
 ## File Structure
 
-- **`core.py`**  
+- **`project.py`**  
   Contains the main game logic, including the `Game` and `Player` classes.  
   - `Game`: keeps track of players, number of rounds, and overall status.  
   - `Player`: represents each player with a name and score, including methods to update scores and represent the player as a string.  
-  - Round logic, score calculation, and winner determination are also implemented here.
+  - Initialization and round logic, score calculation, and winner determination are also implemented here.
 
 - **`helpers.py`**  
   Contains utility functions used throughout the game, such as:  
@@ -36,11 +36,14 @@ The game is played over a fixed number of rounds, after which the player(s) with
   - `clear_screen`: clears the terminal for readability.  
   - `wait_for_enter`: pauses execution until the player confirms.
 
-- **`main.py`**  
-  The entry point of the program. Initializes the game, handles user input, and manages the game loop. It also asks whether players want to play another game after finishing one.
+- **`test_project.py`**  
+  A directory containing unit tests (using `pytest`). These test some of the functions in project.py.
 
-- **`tests/`**  
+- **`test_helpers.py`**  
   A directory containing unit tests (using `pytest`). These ensure the helper functions, score calculation, and core logic behave as expected.
+
+- **`requirements.py`**  
+  Contains the required libraries.
 
 ---
 
@@ -57,10 +60,10 @@ For example:
 
 ## Design Decisions
 
-- **Class-based design**: `Game` and `Player` classes make the logic more modular, so features (like undo/redo or saving scores) can be added later without rewriting the whole game.  
+- **Class-based design**: `Game` and `Player` classes make the logic more modular, so features (like undo/redo or saving scores) can be added later without rewriting the whole game. I am also used to OOP via my Java backend projects. 
 - **Command-line interface**: Chosen for simplicity and focus on gameplay logic. The project could later be extended into a GUI or web app.  
 - **Validation checks**: User input is validated at every step (bids, wins, rounds, player names) to reduce errors during gameplay.  
-- **Fairness rule enforcement**: The last player in each round cannot make a bid that makes the total sum equal to the number of tricks, to keep the game competitive.
+- **Some allowed flexability**: I tried to implement some checks and balances via try-blocks. Also the user is allowed to redo or skip a round.
 
 ---
 
@@ -74,3 +77,19 @@ For example:
 ### Install dependencies
 ```bash
 pip install -r requirements.txt
+```
+### Run the game
+```bash
+python project.py
+```
+### Run the tests
+```bash
+pytest test_project.py test_helpers.py
+```
+
+## Future Improvements
+
+- Add undo/redo feature for mistakes during input.
+- Save and load past games from file (score history).
+- Show some more game information (round history, player positions etc.)
+- Create a GUI or web version for a better user experience.
