@@ -1,4 +1,7 @@
-from helpers import parse_players, validate_rounds, wait_for_enter
+from helpers import clear_screen, parse_players, validate_rounds, wait_for_enter
+import inflect
+
+p = inflect.engine()
 
 
 class Game:
@@ -6,10 +9,6 @@ class Game:
         self._total_rounds = rounds
         self._rounds_left = rounds
         self._players = players
-
-    @property
-    def rounds_left(self):
-        return self._rounds_left
 
     def decrement_round(self):
         if self._rounds_left > 0:
@@ -21,12 +20,15 @@ class Game:
                 f"Players: {player_info}")
 
     def player_names(self):
-        """Print alleen de namen van de spelers, handig voor bids of overzicht"""
         return ", ".join(player.short_name() for player in self._players)
 
     @property
     def total_rounds(self):
         return self._total_rounds
+    
+    @property
+    def rounds_left(self):
+        return self._rounds_left
 
     @property
     def players(self):
@@ -39,11 +41,9 @@ class Player:
         self._score = 0
 
     def __str__(self):
-        """Mooie weergave voor wanneer je een speler print inclusief score"""
         return f"{self._name} (score: {self._score})"
 
     def short_name(self):
-        """Alleen de naam, handig voor Game-lijsten of bids"""
         return self._name
 
     def update_score(self, points):
@@ -59,12 +59,32 @@ class Player:
 
 
 def main():
-    print("Hey! Ready to play Boerenbridge?\n________________________________\n")
+    print("Hey! Ready to play Oh Hell?\n________________________________\n")
 
+    while True:
+        play_game()
+
+        again = input("Would you like to play another game? (y/n): ").strip().lower()
+        if again != "y":
+            print("Thanks for playing! Goodbye.\n")
+            break
+
+
+def play_game():
     game = init_game()
     print(f"\n{game}\n")
-    print("All set?")
-    wait_for_enter()
+    
+    while True:
+        choice = input("All set? (y/n): ").strip().lower()
+        if choice == "y":
+            break
+        elif choice == "n":
+            print("Let's start over!\n")
+            return play_game()
+        else:
+            print("Please type 'y' to continue or 'n' to start a new game.")
+
+    clear_screen()
 
     round_number = 1
     while game.rounds_left > 0:
@@ -73,6 +93,14 @@ def main():
         game.decrement_round()
         print(f"\n{game}\n________")
         round_number += 1
+
+    winners, score = calculate_winners(game)
+    if len(winners) == 1:
+        print(f"\nThe winner is {winners[0].name} with {score} points!\n")
+    else:
+        names = [player.name for player in winners]
+        names_str = p.join(names)
+        print(f"\nIt's a tie between {names_str} with {score} points each!\n")
 
 
 def init_game():
@@ -89,9 +117,9 @@ def play_round(game, round_number):
 
     while True:
         try:
-            tricks = int(input("With how many strokes do you wanna play? (Type 0 if you wanna skip this round) "))
+            tricks = int(input("With how many tricks do you wanna play? (Type 0 if you wanna skip this round) "))
             if tricks == 0:
-                print(f"Round skipped! {game.rounds_left} round(s) left.")
+                print(f"Round skipped! {game.rounds_left - 1} round(s) left.")
                 wait_for_enter()
                 return
 
@@ -108,13 +136,13 @@ def play_round(game, round_number):
     for i, player in enumerate(ordered_players):
         while True:
             try:
-                bid = int(input(f"{player.name}, what is your guess? "))
+                bid = int(input(f"{player.name}, what is your bid? "))
                 if bid < 0:
                     print("Cannot bid a negative number...")
                     continue
                 
                 if bid > tricks:
-                    print("Cannot bid higher than the amount of strokes this round")
+                    print("Cannot bid higher than the amount of tricks this round")
                     continue
 
                 if i == (num_players - 1):
@@ -129,25 +157,25 @@ def play_round(game, round_number):
         bids[player] = bid
 
     print(f"________\nOkay {ordered_players[0].name}, you can start!\n")
-    wait_for_enter("Hit Enter when the round is played and you're ready to fill in the wins...\n")
+    wait_for_enter("Hit Enter when the round is played and you're ready to fill in the trick wins...\n")
 
     total_wins = {}
 
     for i, player in enumerate(ordered_players):
         while True:
             try:
-                wins = int(input(f"{player.name}, how many strokes did you win? "))
+                wins = int(input(f"{player.name}, how many tricks did you win? "))
                 if wins < 0:
                     print("Cannot win a negative number...")
                     continue
 
                 if wins > tricks:
-                    print("Don't lie! Cannot win more than the amount of strokes this round")
+                    print("Don't lie! Cannot win more than the amount of tricks this round")
                     continue
 
                 if i == (num_players - 1):
                     if sum(total_wins.values()) + wins != tricks:
-                        print(f"Sorry {player.name}, the total wins must equal the total strokes ({tricks}). Try again.")
+                        print(f"Sorry {player.name}, the total wins must equal the total tricks ({tricks}). Try again.")
                         continue
 
                 break
@@ -168,6 +196,12 @@ def calculate_score(wins, guess):
         score -= (abs(guess - wins) * 2)
 
     return score
+
+
+def calculate_winners(game):
+    max_score = max(players.score for players in game.players)
+    winners = [player for player in game.players if player.score == max_score]
+    return winners, max_score
 
 
 if __name__ == "__main__":
