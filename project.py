@@ -89,7 +89,12 @@ def play_game():
     round_number = 1
     while game.rounds_left > 0:
         print(f"Round {round_number}\n")
-        play_round(game, round_number)
+
+        result = play_round(game, round_number)
+
+        if result == "redo":
+            continue
+
         game.decrement_round()
         print(f"\n{game}\n________")
         round_number += 1
@@ -104,9 +109,23 @@ def play_game():
 
 
 def init_game():
-    names = parse_players(input("Please fill in the names of the players: "))
-    players = [Player(name) for name in names]
-    rounds = validate_rounds(int(input("How many rounds would you like to play?: ")))
+    while True:
+        try:
+            raw_names = input("Please fill in the names of the players (separated by spaces): ")
+            names = parse_players(raw_names)
+            players = [Player(name) for name in names]
+            break
+        except ValueError as e:
+            print(f"Invalid input: {e}\nPlease try again.\n")
+
+    while True:
+        try:
+            rounds = int(input("How many rounds would you like to play?: "))
+            rounds = validate_rounds(rounds)
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid number of rounds.\n")
+
     return Game(rounds, players)
 
 
@@ -175,16 +194,22 @@ def play_round(game, round_number):
 
                 if i == (num_players - 1):
                     if sum(total_wins.values()) + wins != tricks:
-                        print(f"Sorry {player.name}, the total wins must equal the total tricks ({tricks}). Try again.")
-                        continue
+                        print(f"Sorry {player.name}, the total wins must equal the total tricks ({tricks}).")
+                        redo = input("Type 'r' to redo the whole round, or Enter to try again: ").strip().lower()
+                        if redo == "r":
+                            print("\nRound will be restarted!\n")
+                            return "redo"
+                        else:
+                            continue
 
                 break
             except ValueError:
                 print("Invalid input. Please enter a number.")
 
         total_wins[player] = wins
-        player.update_score(calculate_score(wins, bids[player]))
-        
+
+    for player, wins in total_wins.items():
+        player.update_score(calculate_score(wins, bids[player]))        
 
 def calculate_score(wins, guess):
     score = 0
