@@ -1,23 +1,24 @@
 # Oh Hell Scorekeeper
 #### Video Demo: <URL HERE>
 #### Description:
+A scorekeeper for the cardgame *Oh Hell*, made as a final project for the CS50's programming with Python course from Harvard.
 
 ## Introduction
-I always play this card game called 'Boerenbridge' (in Dutch; my nationality) with my family. We always notate the scores traditionaly with pen and paper. Why not take the CS50p opportunity to implement a little program which does this tedious and prone-to-mistakes work for us...
+I often play the card game *Oh Hell* (known as *Boerenbridge* in Dutch) with my family. We traditionally keep score with pen and paper. So I thought: why not use this CS50p final project as an opportunity to build a small program for this...
 
 ---
 
 ## Project Overview
-This project is a command-line scorekeeper for the card game *Oh Hell* (also known as *Boerenbridge* in Dutch).  
+This project is a command-line scorekeeper for the card game *Oh Hell*.
 For information about the game itself I would like to link to: https://en.wikipedia.org/wiki/Oh_hell
 
-The program enforces the main rules of *Oh Hell*:  
+The program enforces the main rules of *Oh Hell*, a short summary of the flow:
+- It starts by initializing the amount of rounds and players.  
 - Players bid the number of tricks they expect to win.  
 - The sum of bids in a round cannot equal the number of available tricks (to avoid perfect balance).  
-- After the round is played, players record their actual tricks won.  
+- After the round is played, players record their actual tricks won.
 - Points are awarded or deducted based on how accurate the bid was.  
-
-The game is played over a fixed number of rounds, after which the player(s) with the highest score is declared the winner.
+- After all rounds are played a winner is determined and the user is asked to play again.
 
 ---
 
@@ -42,7 +43,7 @@ The game is played over a fixed number of rounds, after which the player(s) with
 - **`test_helpers.py`**  
   A directory containing unit tests (using `pytest`). These ensure the helper functions, score calculation, and core logic behave as expected.
 
-- **`requirements.py`**  
+- **`requirements.txt`**  
   Contains the required libraries.
 
 ---
@@ -88,8 +89,11 @@ pytest test_project.py test_helpers.py
 ```
 
 ## Future Improvements
-
 - Add undo/redo feature for mistakes during input.
 - Save and load past games from file (score history).
 - Show some more game information (round history, player positions etc.)
 - Create a GUI or web version for a better user experience.
+
+## How to Contribute
+This project was built as a personal/family tool, but contributions are welcome.  
+Feel free to open issues or submit pull requests to improve the gameplay, add features, or fix bugs.
