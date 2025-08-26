@@ -1,7 +1,7 @@
 # Oh Hell Scorekeeper
 #### Video Demo: <URL HERE>
 #### Description:
-A scorekeeper for the cardgame *Oh Hell*, made as a final project for the CS50's programming with Python course from Harvard.
+A scorekeeper for the card game *Oh Hell*, made as a final project for the CS50’s Introduction to Programming with Python course from Harvard.
 
 ## Introduction
 I often play the card game *Oh Hell* (known as *Boerenbridge* in Dutch) with my family. We traditionally keep score with pen and paper. So I thought: why not use this CS50p final project as an opportunity to build a small program for this...
@@ -13,7 +13,7 @@ This project is a command-line scorekeeper for the card game *Oh Hell*.
 For information about the game itself I would like to link to: https://en.wikipedia.org/wiki/Oh_hell
 
 The program enforces the main rules of *Oh Hell*, a short summary of the flow:
-- It starts by initializing the amount of rounds and players.  
+- It starts by initialising the amount of rounds and players.  
 - Players bid the number of tricks they expect to win.  
 - The sum of bids in a round cannot equal the number of available tricks (to avoid perfect balance).  
 - After the round is played, players record their actual tricks won.
@@ -28,7 +28,7 @@ The program enforces the main rules of *Oh Hell*, a short summary of the flow:
   Contains the main game logic, including the `Game` and `Player` classes.  
   - `Game`: keeps track of players, number of rounds, and overall status.  
   - `Player`: represents each player with a name and score, including methods to update scores and represent the player as a string.  
-  - Initialization and round logic, score calculation, and winner determination are also implemented here.
+  - Initialisation and round logic, score calculation, and winner determination are also implemented here.
 
 - **`helpers.py`**  
   Contains utility functions used throughout the game, such as:  
@@ -73,7 +73,7 @@ For example:
 ### Requirements
 - Python 3.10+  
 - (Optional) `pytest` for running the unit tests  
-- `inflect` package for better English pluralization and natural joining of player names  
+- `inflect` package for better English pluralisation and natural joining of player names  
 
 ### Install dependencies
 ```bash
