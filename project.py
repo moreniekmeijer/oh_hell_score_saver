@@ -10,17 +10,32 @@ class Game:
         self._rounds_left = rounds
         self._players = players
 
-    def decrement_round(self):
-        if self._rounds_left > 0:
-            self._rounds_left -= 1
-
     def __str__(self):
         player_info = ", ".join(str(player) for player in self._players)
         return (f"Game status:\nRounds left: {self._rounds_left}/{self._total_rounds}\n"
                 f"Players: {player_info}")
+    
+    def decrement_round(self):
+        if self._rounds_left > 0:
+            self._rounds_left -= 1
 
     def player_names(self):
         return ", ".join(player.short_name() for player in self._players)
+    
+    @property
+    def leaderboard(self):
+        return sorted(self._players, key=lambda p: p.score, reverse=True)
+
+    def show_leaderboard(self):
+        print("\nCurrent standings:")
+        for id, player in enumerate(self.leaderboard, start=1):
+            print(f"{id}. {player.name} ({player.score} points)")
+        print()
+
+    def winners(self):
+        max_score = self.leaderboard[0].score
+        winners = [p for p in self._players if p.score == max_score]
+        return winners, max_score
 
     @property
     def total_rounds(self):
@@ -46,8 +61,11 @@ class Player:
     def short_name(self):
         return self._name
 
-    def update_score(self, points):
-        self._score += points
+    def update_score(self, wins, bid):
+        if wins == bid:
+            self._score += 10 + (wins * 2)
+        else:
+            self._score -= abs(bid - wins) * 2
 
     @property
     def name(self):
@@ -96,16 +114,16 @@ def play_game():
             continue
 
         game.decrement_round()
-        print(f"\n{game}\n________")
+        game.show_leaderboard()
         round_number += 1
 
-    winners, score = calculate_winners(game)
+    winners, score = game.winners()
     if len(winners) == 1:
-        print(f"\nThe winner is {winners[0].name} with {score} points!\n")
+        print(f"The winner is {winners[0].name} with {score} points!\n")
     else:
         names = [player.name for player in winners]
         names_str = p.join(names)
-        print(f"\nIt's a tie between {names_str} with {score} points each!\n")
+        print(f"It's a tie between {names_str} with {score} points each!\n")
 
 
 def init_game():
@@ -208,25 +226,10 @@ def play_round(game, round_number):
 
         total_wins[player] = wins
 
-    for player, wins in total_wins.items():
-        player.update_score(calculate_score(wins, bids[player]))        
-
-def calculate_score(wins, guess):
-    score = 0
-
-    if wins == guess:
-        score += 10
-        score += (wins * 2)
-    else:
-        score -= (abs(guess - wins) * 2)
-
-    return score
-
-
-def calculate_winners(game):
-    max_score = max(players.score for players in game.players)
-    winners = [player for player in game.players if player.score == max_score]
-    return winners, max_score
+    for player in ordered_players:
+        wins = total_wins[player]
+        bid = bids[player]
+        player.update_score(wins, bid)
 
 
 if __name__ == "__main__":

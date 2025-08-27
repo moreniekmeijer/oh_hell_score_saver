@@ -4,7 +4,7 @@
 A scorekeeper for the card game *Oh Hell*, made as a final project for the CS50’s Introduction to Programming with Python course from Harvard.
 
 ## Introduction
-I often play the card game *Oh Hell* (known as *Boerenbridge* in Dutch) with my family. We traditionally keep score with pen and paper. So I thought: why not use this CS50p final project as an opportunity to build a small program for this...
+I often play the card game *Oh Hell* (known as *Boerenbridge* in Dutch) with my family. We traditionally keep score with pen and paper. So I thought: why not use this CS50p final project as an opportunity to build a small program for this task...
 
 ---
 
@@ -23,15 +23,33 @@ The program enforces the main rules of *Oh Hell*, a short summary of the flow:
 ---
 
 ## File Structure
-
 - **`project.py`**  
-  Contains the main game logic, including the `Game` and `Player` classes.  
-  - `Game`: keeps track of players, number of rounds, and overall status.  
-  - `Player`: represents each player with a name and score, including methods to update scores and represent the player as a string.  
-  - Initialisation and round logic, score calculation, and winner determination are also implemented here.
+  Main script with the game logic, classes, and functions.  
+  - **Classes**  
+    - `Game`: keeps track of rounds, players, and overall status.  
+      - `__str__()`: string representation with status and players.  
+      - `decrement_round()`: decreases the number of rounds left.  
+      - `player_names()`: returns all player names as a string.  
+      - `leaderboard`: (property) sorted list of players by score.  
+      - `show_leaderboard()`: prints the current standings.  
+      - `winners()`: finds and returns the winner(s) and highest score.
+    - `Player`: represents a player with name and score.  
+      - `__str__()`: string representation with name and score.  
+      - `short_name()`: returns a short string representation.  
+      - `update_score(points)`: calculates and adds points to the score.  
+
+  - **Functions**  
+    - `main()`: starts the game and asks if players want to play again.  
+    - `play_game()`: initializes the game and runs the rounds.  
+    - `init_game()`: collects player names and rounds, creates a `Game` object.  
+    - `play_round(game, round_number)`: logic for a single round:  
+      - defines tricks per round,
+      - collect bids,  
+      - record trick wins,  
+      - update scores.  
 
 - **`helpers.py`**  
-  Contains utility functions used throughout the game, such as:  
+  Contains utility functions used in the game, such as:  
   - `parse_players`: ensures player names are valid and unique.  
   - `validate_rounds`: validates the number of rounds input.  
   - `clear_screen`: clears the terminal for readability.  
@@ -60,7 +78,6 @@ For example:
 ---
 
 ## Design Decisions
-
 - **Class-based design**: `Game` and `Player` classes make the logic more modular, so features (like undo/redo or saving scores) can be added later without rewriting the whole game. I am also used to OOP via my Java backend projects. 
 - **Command-line interface**: Chosen for simplicity and focus on gameplay logic. The project could later be extended into a GUI or web app.  
 - **Validation checks**: User input is validated at every step (bids, wins, rounds, player names) to reduce errors during gameplay.  
@@ -69,7 +86,6 @@ For example:
 ---
 
 ## Installation & Running the Project
-
 ### Requirements
 - Python 3.10+  
 - (Optional) `pytest` for running the unit tests  
