@@ -1,7 +1,4 @@
-from helpers import clear_screen, parse_players, validate_rounds, wait_for_enter
-import inflect
-
-p = inflect.engine()
+from helpers import clear_screen, join_names, parse_players, validate_rounds, wait_for_enter
 
 
 class Game:
@@ -19,9 +16,6 @@ class Game:
         if self._rounds_left > 0:
             self._rounds_left -= 1
 
-    def player_names(self):
-        return ", ".join(player.short_name() for player in self._players)
-    
     @property
     def leaderboard(self):
         return sorted(self._players, key=lambda p: p.score, reverse=True)
@@ -57,9 +51,6 @@ class Player:
 
     def __str__(self):
         return f"{self._name} (score: {self._score})"
-
-    def short_name(self):
-        return self._name
 
     def update_score(self, wins, bid):
         if wins == bid:
@@ -118,12 +109,9 @@ def play_game():
         round_number += 1
 
     winners, score = game.winners()
-    if len(winners) == 1:
-        print(f"The winner is {winners[0].name} with {score} points!\n")
-    else:
-        names = [player.name for player in winners]
-        names_str = p.join(names)
-        print(f"It's a tie between {names_str} with {score} points each!\n")
+    names = [player.name for player in winners]
+    names_str = join_names(names)
+    print(f"It's a tie between {names_str} with {score} points each!\n")
 
 
 def init_game():

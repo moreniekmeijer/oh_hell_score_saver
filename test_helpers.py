@@ -1,5 +1,5 @@
 import pytest
-from helpers import parse_players, validate_rounds
+from helpers import join_names, parse_players, validate_rounds
 
 def test_parse_players_basic():
     names = parse_players("Alice Bob Charlie")
@@ -18,6 +18,13 @@ def test_parse_players_invalid():
         parse_players("Alice Alice")
     with pytest.raises(ValueError):
         parse_players("")
+
+def test_join_names():
+    assert join_names([]) == ""
+    assert join_names(["Alice"]) == "Alice"
+    assert join_names(["Alice", "Bob"]) == "Alice and Bob"
+    assert join_names(["Alice", "Bob", "Charlie"]) == "Alice, Bob and Charlie"
+    assert join_names(["Alice", "Bob", "Charlie", "David"]) == "Alice, Bob, Charlie and David"
 
 def test_validate_rounds_valid():
     rounds = validate_rounds(5)

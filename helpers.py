@@ -17,7 +17,15 @@ def parse_players(str_players, min_players=3, max_players=6):
         raise ValueError("Duplicate player names are not allowed.")
 
     return names
-    
+
+
+def join_names(names: list[str]) -> str:
+    if not names:
+        return ""
+    if len(names) == 1:
+        return names[0]
+    return ", ".join(names[:-1]) + " and " + names[-1]
+
 
 def validate_rounds(rounds):
     if not 1 <= rounds <= 19:

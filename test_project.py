@@ -1,24 +1,28 @@
-from project import Game, Player, calculate_score
+from project import Game, Player
 
-def test_player():
+def test_player_initialization():
     p = Player("Alice")
+    assert p.name == "Alice"
     assert p.score == 0
-    p.update_score(5)
-    assert p.score == 5
-    assert p.short_name() == "Alice"
 
-def test_calculate_score_correct_guess():
-    score = calculate_score(3, 3)
-    assert score == 10 + 3 * 2
+def test_player_update_score_correct_guess():
+    p = Player("Alice")
+    p.update_score(wins=3, bid=3)
+    assert p.score == 16
 
-def test_calculate_score_incorrect_guess():
-    score = calculate_score(2, 4)
-    assert score == -(abs(2 - 4) * 2)
+def test_player_update_score_incorrect_guess():
+    p = Player("Alice")
+    p.update_score(wins=2, bid=4)
+    assert p.score == -4
 
 def test_game_initialization():
     players = [Player("Alice"), Player("Bob")]
     g = Game(rounds=5, players=players)
+
     assert g.total_rounds == 5
     assert g.rounds_left == 5
     assert len(g.players) == 2
 
+    leaderboard = g.leaderboard
+    assert leaderboard[0].score == 0
+    assert leaderboard[1].score == 0

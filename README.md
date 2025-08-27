@@ -29,13 +29,11 @@ The program enforces the main rules of *Oh Hell*, a short summary of the flow:
     - `Game`: keeps track of rounds, players, and overall status.  
       - `__str__()`: string representation with status and players.  
       - `decrement_round()`: decreases the number of rounds left.  
-      - `player_names()`: returns all player names as a string.  
       - `leaderboard`: (property) sorted list of players by score.  
       - `show_leaderboard()`: prints the current standings.  
       - `winners()`: finds and returns the winner(s) and highest score.
     - `Player`: represents a player with name and score.  
       - `__str__()`: string representation with name and score.  
-      - `short_name()`: returns a short string representation.  
       - `update_score(points)`: calculates and adds points to the score.  
 
   - **Functions**  
@@ -59,7 +57,7 @@ The program enforces the main rules of *Oh Hell*, a short summary of the flow:
   A directory containing unit tests (using `pytest`). These test some of the functions in project.py.
 
 - **`test_helpers.py`**  
-  A directory containing unit tests (using `pytest`). These ensure the helper functions, score calculation, and core logic behave as expected.
+  A directory containing unit tests (using `pytest`). These ensure the helper functions behave as expected.
 
 - **`requirements.txt`**  
   Contains the required libraries.
