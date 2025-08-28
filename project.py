@@ -108,10 +108,14 @@ def play_game():
         game.show_leaderboard()
         round_number += 1
 
-    winners, score = game.winners()
-    names = [player.name for player in winners]
-    names_str = join_names(names)
-    print(f"It's a tie between {names_str} with {score} points each!\n")
+        winners, score = game.winners()
+    if len(winners) == 1:
+        winner = winners[0]
+        print(f"The winner is {winner.name} with {score} points!\n")
+    else:
+        names = [player.name for player in winners]
+        names_str = join_names(names)
+        print(f"It's a tie between {names_str} with {score} points each!\n")
 
 
 def init_game():

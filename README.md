@@ -1,5 +1,6 @@
 # Oh Hell Scorekeeper
-#### Video Demo: <URL HERE>
+#### Video Demo: 
+https://youtu.be/4J0etN2x_GE
 #### Description:
 A scorekeeper for the card game *Oh Hell*, made as a final project for the CS50’s Introduction to Programming with Python course from Harvard.
 
@@ -16,7 +17,7 @@ The program enforces the main rules of *Oh Hell*, a short summary of the flow:
 - It starts by initialising the amount of rounds and players.  
 - Players bid the number of tricks they expect to win.  
 - The sum of bids in a round cannot equal the number of available tricks (to avoid perfect balance).  
-- After the round is played, players record their actual tricks won.
+- After each round is played, players record their actual tricks won (the tricks have to match the wins).
 - Points are awarded or deducted based on how accurate the bid was.  
 - After all rounds are played a winner is determined and the user is asked to play again.
 
@@ -49,18 +50,19 @@ The program enforces the main rules of *Oh Hell*, a short summary of the flow:
 - **`helpers.py`**  
   Contains utility functions used in the game, such as:  
   - `parse_players`: ensures player names are valid and unique.  
+  - `join_names`: creates a string of given names.
   - `validate_rounds`: validates the number of rounds input.  
-  - `clear_screen`: clears the terminal for readability.  
   - `wait_for_enter`: pauses execution until the player confirms.
+  - `clear_screen`: clears the terminal for readability.  
 
 - **`test_project.py`**  
-  A directory containing unit tests (using `pytest`). These test some of the functions in project.py.
+  A file containing unit tests. These test some of the functions and all of the methods in project.py.
 
 - **`test_helpers.py`**  
-  A directory containing unit tests (using `pytest`). These ensure the helper functions behave as expected.
+  A file containing unit tests (using `pytest`). These ensure the helper functions behave as expected.
 
 - **`requirements.txt`**  
-  Contains the required libraries.
+  Contains the required libraries (only for testing).
 
 ---
 
@@ -76,7 +78,7 @@ For example:
 ---
 
 ## Design Decisions
-- **Class-based design**: `Game` and `Player` classes make the logic more modular, so features (like undo/redo or saving scores) can be added later without rewriting the whole game. I am also used to OOP via my Java backend projects. 
+- **Class-based design**: `Game` and `Player` classes make the logic more modular, so features (like undo/redo or saving scores) can be added later without rewriting the whole game.
 - **Command-line interface**: Chosen for simplicity and focus on gameplay logic. The project could later be extended into a GUI or web app.  
 - **Validation checks**: User input is validated at every step (bids, wins, rounds, player names) to reduce errors during gameplay.  
 - **Some allowed flexability**: I tried to implement some checks and balances via try-blocks. Also the user is allowed to redo or skip a round.
@@ -87,9 +89,8 @@ For example:
 ### Requirements
 - Python 3.10+  
 - (Optional) `pytest` for running the unit tests  
-- `inflect` package for better English pluralisation and natural joining of player names  
 
-### Install dependencies
+### Install dependencies (only for testing)
 ```bash
 pip install -r requirements.txt
 ```
@@ -109,5 +110,5 @@ pytest test_project.py test_helpers.py
 - Create a GUI or web version for a better user experience.
 
 ## How to Contribute
-This project was built as a personal/family tool, but contributions are welcome.  
+This project was built as a personal tool, but contributions are welcome.  
 Feel free to open issues or submit pull requests to improve the gameplay, add features, or fix bugs.
