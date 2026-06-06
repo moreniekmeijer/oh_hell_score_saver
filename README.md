@@ -33,10 +33,9 @@ The program enforces the main rules of _Oh Hell_, a short summary of the flow:
 ## File Structure
 
 - **`project.py`**  
-  Main script with the game logic, classes, and functions.
+  Main script with the terminal game logic, classes, and functions.
 
   - **Classes**
-
     - `Game`: keeps track of rounds, players, and overall status.
       - `__str__()`: string representation with status and players.
       - `decrement_round()`: decreases the number of rounds left.
@@ -58,22 +57,21 @@ The program enforces the main rules of _Oh Hell_, a short summary of the flow:
       - update scores.
 
 - **`helpers.py`**  
-  Contains utility functions used in the game, such as:
-
+  Contains utility functions used in the terminal game, such as:
   - `parse_players`: ensures player names are valid and unique.
   - `join_names`: creates a string of given names.
   - `validate_rounds`: validates the number of rounds input.
   - `wait_for_enter`: pauses execution until the player confirms.
   - `clear_screen`: clears the terminal for readability.
 
-- **`test_project.py`**  
-  A file containing unit tests. These test some of the functions and all of the methods in project.py.
+- **`test_project.py`** & **`test_helpers.py`**  
+  Unit tests for the Python terminal app functions and classes.
 
-- **`test_helpers.py`**  
-  A file containing unit tests (using `pytest`). These ensure the helper functions behave as expected.
-
-- **`requirements.txt`**  
-  Contains the required libraries (only for testing).
+- **`frontend/`**  
+  The modern, responsive React + Vite web version of the score saver designed for browsers and mobile devices.
+  - **`src/App.jsx`**: Core React component managing the game state (setup, bids, tricks, wins, history, undo/redo, and leaderboard).
+  - **`src/index.css`**: Sleek, custom glassmorphic stylesheet designed mobile-first.
+  - **`src/main.jsx`**: Vite entry point rendering the app.
 
 ---
 
@@ -100,41 +98,66 @@ For example:
 
 ## Installation & Running the Project
 
-### Requirements
-
-- Python 3.10+
-- (Optional) `pytest` for running the unit tests
-
-### Clone the repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/moreniekmeijer/oh_hell_score_saver.git
+cd oh_hell_score_saver
 ```
 
-### Install dependencies (only for testing)
+### Option A: Running the React Web Application (Recommended for Mobile/Browser)
 
+The web app is stored in the `frontend` folder and features a premium UI, responsive layout, local storage persistence, and undo/redo support.
+
+#### Requirements
+- Node.js (v18+) and npm
+
+#### Installation & Startup
 ```bash
+# Navigate to the frontend directory
+cd frontend
+
+# Install package dependencies
+npm install
+
+# Run the local development server
+npm run dev
+```
+Open `http://localhost:5173/` in your browser.
+
+#### Build for Production
+To bundle the web app for hosting (or running locally on mobile):
+```bash
+npm run build
+```
+
+---
+
+### Option B: Running the Python Terminal Game
+
+#### Requirements
+- Python 3.10+
+- (Optional) `pytest` for running unit tests
+
+#### Setup & Startup
+```bash
+# Install dependencies (only required for testing)
 pip install -r requirements.txt
-```
 
-### Run the game
-
-```bash
+# Run the terminal game
 python project.py
 ```
 
-### Run the tests
-
+#### Run Terminal Game Tests
 ```bash
 pytest test_project.py test_helpers.py
 ```
 
 ## Future Improvements
 
-- Add undo/redo feature for mistakes during input.
 - Save and load past games from file (score history).
-- Show some more game information (round history, player positions etc.)
-- Create a GUI or web version for a better user experience.
+- Show some more game statistics and summaries.
+- Add support for custom bidding/scoring variants.
 
 ## How to Contribute
 
